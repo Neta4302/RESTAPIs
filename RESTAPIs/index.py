@@ -18,7 +18,10 @@ def get_country():
 @app.route('/country/<int:id>', methods=['GET'])
 def get_country_id(id: int):
   country = _find_next_id(id)
-  return jsonify(countries)
+  if country is None:
+    return jsonify({ 'error': 'Country does not exist.' }), 404
+
+  return jsonify(country)
 
 def _find_next_id(id: int):
   return next((x for x in countries if x['id'] == id), None)
